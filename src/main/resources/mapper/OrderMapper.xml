@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.cent.dynamicdatasourcedemo.mapper.OrderMapper">
+    <resultMap id="Order" type="org.cent.dynamicdatasourcedemo.model.Order">
+        <id column="c_id" property="id"/>
+        <result column="c_oid" property="oid" />
+        <result column="c_amount" property="amount" />
+        <result column="c_status" property="status" />
+        <result column="c_date" property="date" />
+        <result column="c_time" property="time" />
+        <result column="c_mnt_date" property="mntDate" />
+        <result column="c_mnt_time" property="mntTime" />
+        <result column="c_version" property="version" />
+    </resultMap>
+    <select id="getOrder" resultMap="Order" parameterType="string">
+        select * from tb_order where c_oid = #{oid}
+    </select>
+    <insert id="addOrder" parameterType="org.cent.dynamicdatasourcedemo.model.Order">
+        insert into
+        tb_order(c_oid, c_amount, c_status, c_date, c_time, c_mnt_date, c_mnt_time, c_version)
+        values(#{oid}, #{amount}, #{status}, #{date}, #{time}, #{mntDate}, #{mntTime}, #{version})
+    </insert>
+    <update id="updateOrder">
+        update tb_order set
+        c_status = #{order.status}, c_mnt_date = #{order.mntDate},
+        c_mnt_time = #{order.mntTime}, c_version = #{order.version}
+        where c_oid = #{order.oid} and c_status = #{orderTemp.status}
+    </update>
+</mapper>
